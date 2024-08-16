@@ -95,7 +95,10 @@ class pyCryptoPayAPI:
         return self.__request(method).get("result")
 
     def create_invoice(
-            self, asset, amount,
+            self, amount,
+            asset = None,
+            fiat = None,
+            currency_type = "crypto",
             description = None, hidden_message = None,
             paid_btn_name = None, paid_btn_url = None, payload = None,
             allow_comments = None, allow_anonymous = None,
@@ -105,6 +108,8 @@ class pyCryptoPayAPI:
         createInvoice method
         Use this method to create a new invoice.
 
+        :param currency_type: (String) Optional. Type of the price, can be “crypto” or “fiat”. Defaults to crypto.
+        :param fiat: (String) Optional. Required if currency_type is “fiat”. Fiat currency code. Supported fiat currencies: “USD”, “EUR”, “RUB”, “BYN”, “UAH”, “GBP”, “CNY”, “KZT”, “UZS”, “GEL”, “TRY”, “AMD”, “THB”, “INR”, “BRL”, “IDR”, “AZN”, “AED”, “PLN” and “ILS".
         :param asset: (String) Currency code. Supported assets: “USDT”, “TON”, “BTC”, “ETH”, “BNB”, “TRX”, “BUSD” and “USDC”.
         :param amount: (String) Amount of the invoice in float. For example: 125.50
         :param description: (String) Optional. Description for the invoice. User will see this description when they pay the invoice. Up to 1024 characters.
@@ -123,9 +128,13 @@ class pyCryptoPayAPI:
         """
         method = "createInvoice"
         params = {
-            "asset": asset,
+            "currency_type": currency_type,
             "amount": amount,
         }
+        if asset:
+            params["asset"] = asset
+        if fiat:
+            params["fiat"] = fiat
         if description:
             params["description"] = description
         if hidden_message:
