@@ -102,7 +102,8 @@ class pyCryptoPayAPI:
             description = None, hidden_message = None,
             paid_btn_name = None, paid_btn_url = None, payload = None,
             allow_comments = None, allow_anonymous = None,
-            expires_in = None
+            expires_in = None,
+            swap_to: str = None
     ):
         """
         createInvoice method
@@ -151,6 +152,8 @@ class pyCryptoPayAPI:
             params["allow_anonymous"] = allow_anonymous
         if expires_in:
             params["expires_in"] = expires_in
+        if swap_to is not None:
+            params["swap_to"] = swap_to
         return self.__request(method, **params).get("result")
 
     def delete_invoice(self, invoice_id):
